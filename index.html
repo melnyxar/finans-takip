@@ -11,56 +11,88 @@
     input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col items-center p-4">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col items-center p-4 pb-24">
 
-  <div class="w-full max-w-md flex flex-col h-full space-y-4">
+  <div class="w-full max-w-md flex flex-col space-y-4">
     
-    <!-- Başlık ve Bildirim -->
+    <!-- Başlık -->
     <header class="flex justify-between items-center py-2 border-b border-slate-800">
-      <h1 class="text-lg font-semibold tracking-wide text-slate-200">Cüzdan Takip</h1>
+      <h1 id="pageTitle" class="text-lg font-semibold tracking-wide text-slate-200">Harcama Girişi</h1>
       <span id="statusBadge" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 text-slate-400">Hazır</span>
     </header>
 
-    <!-- Tutar Girişi -->
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 text-center shadow-lg">
-      <label class="text-xs text-slate-400 font-medium tracking-wider uppercase block mb-1">Harcama Tutarı</label>
-      <div class="flex items-center justify-center space-x-1">
-        <span class="text-3xl font-bold text-emerald-400">₺</span>
-        <input 
-          id="amountInput" 
-          type="number" 
-          step="0.01" 
-          placeholder="0.00" 
-          autofocus 
-          class="bg-transparent text-4xl font-bold w-48 text-center text-white focus:outline-none placeholder-slate-600"
-        />
+    <!-- SAYFA 1: HARCAMA GİRİŞİ -->
+    <main id="entryView" class="space-y-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 text-center shadow-lg">
+        <label class="text-xs text-slate-400 font-medium tracking-wider uppercase block mb-1">Harcama Tutarı</label>
+        <div class="flex items-center justify-center space-x-1">
+          <span class="text-3xl font-bold text-emerald-400">₺</span>
+          <input 
+            id="amountInput" 
+            type="number" 
+            step="0.01" 
+            placeholder="0.00" 
+            class="bg-transparent text-4xl font-bold w-48 text-center text-white focus:outline-none placeholder-slate-600"
+          />
+        </div>
       </div>
-    </div>
 
-    <!-- Açıklama (Opsiyonel) -->
-    <input 
-      id="descInput" 
-      type="text" 
-      placeholder="Kısa açıklama (opsiyonel)..." 
-      class="bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-colors"
-    />
+      <input 
+        id="descInput" 
+        type="text" 
+        placeholder="Kısa açıklama (opsiyonel)..." 
+        class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-colors"
+      />
 
-    <!-- Ana Kategoriler Grid -->
-    <div>
-      <span class="text-xs text-slate-400 font-medium block mb-2">1. Kategori Seç</span>
-      <div id="mainCategoriesGrid" class="grid grid-cols-2 gap-2.5"></div>
-    </div>
-
-    <!-- Alt Kategoriler Paneli -->
-    <div id="subCategorySection" class="hidden">
-      <div class="flex items-center justify-between mb-2">
-        <span class="text-xs text-slate-400 font-medium">2. Alt Kategoriye Dokun ve Kaydet</span>
-        <button onclick="resetCategorySelection()" class="text-xs text-slate-500 hover:text-slate-300">Vazgeç</button>
+      <div>
+        <span class="text-xs text-slate-400 font-medium block mb-2">1. Kategori Seç</span>
+        <div id="mainCategoriesGrid" class="grid grid-cols-2 gap-2.5"></div>
       </div>
-      <div id="subCategoriesGrid" class="grid grid-cols-2 gap-2"></div>
-    </div>
+
+      <div id="subCategorySection" class="hidden">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs text-slate-400 font-medium">2. Alt Kategoriye Dokun ve Kaydet</span>
+          <button onclick="resetCategorySelection()" class="text-xs text-slate-500 hover:text-slate-300">Vazgeç</button>
+        </div>
+        <div id="subCategoriesGrid" class="grid grid-cols-2 gap-2"></div>
+      </div>
+    </main>
+
+    <!-- SAYFA 2: AYLIK ÖZET -->
+    <main id="reportView" class="hidden space-y-4">
+      <!-- Ay Seçici & Toplam Kartı -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 text-center">
+        <div class="flex justify-between items-center mb-3">
+          <button onclick="changeMonth(-1)" class="p-1 px-3 bg-slate-800 rounded-lg text-slate-300 hover:bg-slate-700">◀</button>
+          <span id="selectedPeriodLabel" class="text-sm font-semibold tracking-wider text-slate-300">Yükleniyor...</span>
+          <button onclick="changeMonth(1)" class="p-1 px-3 bg-slate-800 rounded-lg text-slate-300 hover:bg-slate-700">▶</button>
+        </div>
+        <span class="text-xs text-slate-400 uppercase tracking-wider block">Bu Ayki Toplam Harcama</span>
+        <span id="reportTotalSpend" class="text-3xl font-extrabold text-emerald-400 block mt-1">₺ 0.00</span>
+      </div>
+
+      <!-- Kategori Dağılım Çubukları -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
+        <h3 class="text-xs text-slate-400 uppercase tracking-wider font-semibold mb-2">Kategori Dağılımı</h3>
+        <div id="reportCategoryList" class="space-y-3">
+          <p class="text-xs text-slate-500 text-center py-4">Veriler çekiliyor...</p>
+        </div>
+      </div>
+    </main>
 
   </div>
+
+  <!-- ALT SABİT MENÜ -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-slate-900/90 backdrop-blur-md border-t border-slate-800 flex justify-around p-3 z-50">
+    <button onclick="switchTab('entry')" id="navEntryBtn" class="flex flex-col items-center space-y-1 text-emerald-400">
+      <span class="text-lg">➕</span>
+      <span class="text-xs font-medium">Harcama Gir</span>
+    </button>
+    <button onclick="switchTab('report')" id="navReportBtn" class="flex flex-col items-center space-y-1 text-slate-500 hover:text-slate-300">
+      <span class="text-lg">📊</span>
+      <span class="text-xs font-medium">Aylık Özet</span>
+    </button>
+  </nav>
 
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzvG8-AI8vr823_OIBmWhSVNjN8mNXAjI3XlycaSn4Dh97aNE63zwSTVqni1VcJdAtU/exec";
@@ -76,8 +108,9 @@
     };
 
     let selectedMainCat = null;
+    let currentReportDate = new Date();
 
-    // Ana Kategorileri Ekrana Bas
+    // Ana Kategorileri Oluştur
     const mainGrid = document.getElementById("mainCategoriesGrid");
     for (const [name, info] of Object.entries(CATEGORIES)) {
       const btn = document.createElement("button");
@@ -106,7 +139,6 @@
       });
 
       document.getElementById("subCategorySection").classList.remove("hidden");
-      document.getElementById("subCategorySection").scrollIntoView({ behavior: 'smooth' });
     }
 
     function resetCategorySelection() {
@@ -122,7 +154,6 @@
 
       if (!amount || Number(amount) <= 0) {
         alert("Lütfen geçerli bir tutar girin.");
-        document.getElementById("amountInput").focus();
         return;
       }
 
@@ -154,7 +185,6 @@
           body: JSON.stringify(payload)
         });
 
-        // Formu temizle
         document.getElementById("amountInput").value = "";
         document.getElementById("descInput").value = "";
         resetCategorySelection();
@@ -167,8 +197,78 @@
         }, 2500);
 
       } catch (error) {
-        statusBadge.innerText = "Hata oluştu";
+        statusBadge.innerText = "Hata!";
         statusBadge.className = "text-xs px-2.5 py-1 rounded-full bg-red-950 text-red-300";
+      }
+    }
+
+    // SEKME DEĞİŞTİRME MANTIĞI
+    function switchTab(tab) {
+      if (tab === 'entry') {
+        document.getElementById("entryView").classList.remove("hidden");
+        document.getElementById("reportView").classList.add("hidden");
+        document.getElementById("pageTitle").innerText = "Harcama Girişi";
+        document.getElementById("navEntryBtn").className = "flex flex-col items-center space-y-1 text-emerald-400";
+        document.getElementById("navReportBtn").className = "flex flex-col items-center space-y-1 text-slate-500";
+      } else {
+        document.getElementById("entryView").classList.add("hidden");
+        document.getElementById("reportView").classList.remove("hidden");
+        document.getElementById("pageTitle").innerText = "Aylık Özet";
+        document.getElementById("navReportBtn").className = "flex flex-col items-center space-y-1 text-emerald-400";
+        document.getElementById("navEntryBtn").className = "flex flex-col items-center space-y-1 text-slate-500";
+        loadMonthlyReport();
+      }
+    }
+
+    function changeMonth(offset) {
+      currentReportDate.setMonth(currentReportDate.getMonth() + offset);
+      loadMonthlyReport();
+    }
+
+    async function loadMonthlyReport() {
+      const year = currentReportDate.getFullYear();
+      const month = String(currentReportDate.getMonth() + 1).padStart(2, '0');
+      const period = `${year}-${month}`;
+
+      document.getElementById("selectedPeriodLabel").innerText = `${period}`;
+      const listContainer = document.getElementById("reportCategoryList");
+      listContainer.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Veriler çekiliyor...</p>`;
+
+      try {
+        const response = await fetch(`${SCRIPT_URL}?period=${period}`);
+        const data = await response.json();
+
+        document.getElementById("reportTotalSpend").innerText = `₺ ${data.totalSpend.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}`;
+        listContainer.innerHTML = "";
+
+        if (data.totalSpend === 0) {
+          listContainer.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Bu ay henüz bir harcama kaydedilmedi.</p>`;
+          return;
+        }
+
+        // Kategorileri tutara göre sırala
+        const sortedCats = Object.entries(data.categories).sort((a, b) => b[1] - a[1]);
+
+        sortedCats.forEach(([catName, amount]) => {
+          const pct = ((amount / data.totalSpend) * 100).toFixed(1);
+          const icon = CATEGORIES[catName] ? CATEGORIES[catName].icon : "📌";
+
+          const row = document.createElement("div");
+          row.className = "space-y-1";
+          row.innerHTML = `
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-medium text-slate-300 flex items-center gap-1.5">${icon} ${catName}</span>
+              <span class="font-bold text-slate-100">₺ ${amount.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} <span class="text-slate-400 font-normal">(%${pct})</span></span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+              <div class="bg-emerald-500 h-2 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+            </div>
+          `;
+          listContainer.appendChild(row);
+        });
+
+      } catch (err) {
+        listContainer.innerHTML = `<p class="text-xs text-red-400 text-center py-4">Veriler alınırken hata oluştu.</p>`;
       }
     }
   </script>
