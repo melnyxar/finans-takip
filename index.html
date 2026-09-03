@@ -1,278 +1,249 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Bütçe Takip</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
+
+  <title>Finans Takip</title>
+
   <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-    body { -webkit-tap-highlight-color: transparent; }
-    input[type=number]::-webkit-inner-spin-button, 
-    input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+    body {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
   </style>
+
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col items-center p-4 pb-24">
 
-  <div class="w-full max-w-md flex flex-col space-y-4">
-    
-    <!-- Başlık -->
-    <header class="flex justify-between items-center py-2 border-b border-slate-800">
-      <h1 id="pageTitle" class="text-lg font-semibold tracking-wide text-slate-200">Harcama Girişi</h1>
-      <span id="statusBadge" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 text-slate-400">Hazır</span>
-    </header>
 
-    <!-- SAYFA 1: GİRİŞ -->
-    <main id="entryView" class="space-y-4">
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 text-center shadow-lg">
-        <label class="text-xs text-slate-400 font-medium tracking-wider uppercase block mb-1">Harcama Tutarı</label>
-        <div class="flex items-center justify-center space-x-1">
-          <span class="text-3xl font-bold text-emerald-400">₺</span>
-          <input 
-            id="amountInput" 
-            type="number" 
-            step="0.01" 
-            placeholder="0.00" 
-            class="bg-transparent text-4xl font-bold w-48 text-center text-white focus:outline-none placeholder-slate-600"
-          />
-        </div>
-      </div>
+<body
+  class="
+    bg-slate-950
+    text-slate-100
+    min-h-screen
+    flex
+    flex-col
+  "
+>
 
-      <input 
-        id="descInput" 
-        type="text" 
-        placeholder="Kısa açıklama (opsiyonel)..." 
-        class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-colors"
-      />
+
+  <!-- UYGULAMA -->
+
+  <div
+    id="app"
+    class="
+      w-full
+      max-w-md
+      mx-auto
+      p-4
+      pb-24
+    "
+  >
+
+
+    <!-- BAŞLIK -->
+
+    <header
+      class="
+        flex
+        justify-between
+        items-center
+        py-2
+        border-b
+        border-slate-800
+      "
+    >
 
       <div>
-        <span class="text-xs text-slate-400 font-medium block mb-2">1. Kategori Seç</span>
-        <div id="mainCategoriesGrid" class="grid grid-cols-2 gap-2.5"></div>
+
+        <p
+          class="
+            text-xs
+            text-emerald-400
+            font-medium
+          "
+        >
+          Finans Takip
+        </p>
+
+        <h1
+          id="pageTitle"
+          class="
+            text-lg
+            font-semibold
+            text-slate-200
+          "
+        >
+          Harcama Girişi
+        </h1>
+
       </div>
 
-      <div id="subCategorySection" class="hidden">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-xs text-slate-400 font-medium">2. Alt Kategoriye Dokun ve Kaydet</span>
-          <button onclick="resetCategorySelection()" class="text-xs text-slate-500 hover:text-slate-300">Vazgeç</button>
-        </div>
-        <div id="subCategoriesGrid" class="grid grid-cols-2 gap-2"></div>
+
+      <span
+        id="statusBadge"
+        class="
+          text-xs
+          px-2.5
+          py-1
+          rounded-full
+          bg-slate-800
+          text-slate-400
+        "
+      >
+        Hazır
+      </span>
+
+    </header>
+
+
+    <!--
+      EKRANLARI BURAYA EKLEYECEĞİZ
+    -->
+
+    <main
+      class="
+        mt-4
+      "
+    >
+
+      <div
+        class="
+          bg-slate-900
+          border
+          border-slate-800
+          rounded-2xl
+          p-6
+          text-center
+        "
+      >
+
+        <p
+          class="
+            text-emerald-400
+            font-semibold
+          "
+        >
+          Finans Takip hazır.
+        </p>
+
+        <p
+          class="
+            text-sm
+            text-slate-500
+            mt-2
+          "
+        >
+          Harcama ve gelir ekranlarını şimdi oluşturacağız.
+        </p>
+
       </div>
+
     </main>
 
-    <!-- SAYFA 2: ÖZET -->
-    <main id="reportView" class="hidden space-y-4">
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 text-center">
-        <div class="flex justify-between items-center mb-3">
-          <button onclick="changeMonth(-1)" class="p-1 px-3 bg-slate-800 rounded-lg text-slate-300 hover:bg-slate-700 active:scale-95">◀</button>
-          <span id="selectedPeriodLabel" class="text-sm font-semibold tracking-wider text-slate-300">Yükleniyor...</span>
-          <button onclick="changeMonth(1)" class="p-1 px-3 bg-slate-800 rounded-lg text-slate-300 hover:bg-slate-700 active:scale-95">▶</button>
-        </div>
-        <span class="text-xs text-slate-400 uppercase tracking-wider block">Bu Ayki Toplam Harcama</span>
-        <span id="reportTotalSpend" class="text-3xl font-extrabold text-emerald-400 block mt-1">₺ 0,00</span>
-      </div>
-
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
-        <h3 class="text-xs text-slate-400 uppercase tracking-wider font-semibold mb-2">Kategori Dağılımı</h3>
-        <div id="reportCategoryList" class="space-y-3">
-          <p class="text-xs text-slate-500 text-center py-4">Veriler çekiliyor...</p>
-        </div>
-      </div>
-    </main>
 
   </div>
 
-  <!-- ALT SABİT MENÜ -->
-  <nav class="fixed bottom-0 left-0 right-0 bg-slate-900/90 backdrop-blur-md border-t border-slate-800 flex justify-around p-3 z-50">
-    <button onclick="switchTab('entry')" id="navEntryBtn" class="flex flex-col items-center space-y-1 text-emerald-400">
-      <span class="text-lg">➕</span>
-      <span class="text-xs font-medium">Harcama Gir</span>
+
+  <!-- ALT MENÜ -->
+
+  <nav
+    class="
+      fixed
+      bottom-0
+      left-0
+      right-0
+      bg-slate-900
+      border-t
+      border-slate-800
+      flex
+      justify-around
+      py-3
+    "
+  >
+
+
+    <button
+      class="
+        flex
+        flex-col
+        items-center
+        gap-1
+        text-emerald-400
+      "
+    >
+
+      <span class="text-lg">
+        ➕
+      </span>
+
+      <span class="text-xs">
+        Harcama
+      </span>
+
     </button>
-    <button onclick="switchTab('report')" id="navReportBtn" class="flex flex-col items-center space-y-1 text-slate-500 hover:text-slate-300">
-      <span class="text-lg">📊</span>
-      <span class="text-xs font-medium">Aylık Özet</span>
+
+
+    <button
+      class="
+        flex
+        flex-col
+        items-center
+        gap-1
+        text-slate-500
+      "
+    >
+
+      <span class="text-lg">
+        💰
+      </span>
+
+      <span class="text-xs">
+        Gelir
+      </span>
+
     </button>
+
+
+    <button
+      class="
+        flex
+        flex-col
+        items-center
+        gap-1
+        text-slate-500
+      "
+    >
+
+      <span class="text-lg">
+        📊
+      </span>
+
+      <span class="text-xs">
+        Özet
+      </span>
+
+    </button>
+
+
   </nav>
 
-  <script>
-    // Yeni dağıtım URL'in entegre edildi
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz14ItYilxfdHDyNowumHNGUeYYRddF53B-3YJ863icIcwbZDaK1h8BwrDPl8VNNdq3/exec";
 
-    const CATEGORIES = {
-      "Market": { icon: "🛒", subs: ["Ev İhtiyaçları", "Atıştırmalık"] },
-      "Yemek": { icon: "🍔", subs: ["Dışarıda Restoran/Kafe", "Yemek Siparişi"] },
-      "Ulaşım": { icon: "🚌", subs: ["Toplu Taşıma / Akbil", "Taksi", "Şehirlerarası Seyahat"] },
-      "Eğlence & Sosyal": { icon: "🎟️", subs: ["Sinema/Tiyatro", "Dışarıda Kahve", "Oyunlar", "Sosyal Aktivite"] },
-      "Üniversite": { icon: "🎓", subs: ["Yemekhane", "Kırtasiye / Baskı", "Kampüs Kahve/Market", "Harç / Kayıt", "Kulüp / Etkinlik"] },
-      "Sabit Abonelikler": { icon: "💳", subs: ["Akbil Abonman", "Spotify", "Dijital Abonelik"] },
-      "Kişisel Bakım & Sağlık": { icon: "✂️", subs: ["Kıyafet / Ayakkabı", "Kuaför / Berber", "Eczane / Sağlık"] }
-    };
-
-    let selectedMainCat = null;
-    let currentReportDate = new Date();
-
-    const mainGrid = document.getElementById("mainCategoriesGrid");
-    for (const [name, info] of Object.entries(CATEGORIES)) {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "main-cat-btn flex items-center space-x-2 bg-slate-900 border border-slate-800 p-3 rounded-xl text-left hover:border-slate-700 active:bg-slate-800 transition-all";
-      btn.innerHTML = `<span class="text-xl">${info.icon}</span><span class="text-sm font-medium text-slate-200">${name}</span>`;
-      btn.onclick = () => selectMainCategory(name, btn);
-      mainGrid.appendChild(btn);
-    }
-
-    function selectMainCategory(name, buttonElement) {
-      selectedMainCat = name;
-      document.querySelectorAll(".main-cat-btn").forEach(b => b.classList.remove("border-emerald-500", "bg-slate-800/80"));
-      buttonElement.classList.add("border-emerald-500", "bg-slate-800/80");
-
-      const subGrid = document.getElementById("subCategoriesGrid");
-      subGrid.innerHTML = "";
-
-      CATEGORIES[name].subs.forEach(sub => {
-        const subBtn = document.createElement("button");
-        subBtn.type = "button";
-        subBtn.className = "bg-emerald-950/40 border border-emerald-800/60 text-emerald-200 p-3 rounded-xl text-xs font-semibold hover:bg-emerald-900/50 active:scale-95 transition-all text-center";
-        subBtn.innerText = sub;
-        subBtn.onclick = () => submitExpense(sub);
-        subGrid.appendChild(subBtn);
-      });
-
-      document.getElementById("subCategorySection").classList.remove("hidden");
-    }
-
-    function resetCategorySelection() {
-      selectedMainCat = null;
-      document.getElementById("subCategorySection").classList.add("hidden");
-      document.querySelectorAll(".main-cat-btn").forEach(b => b.classList.remove("border-emerald-500", "bg-slate-800/80"));
-    }
-
-    async function submitExpense(subCat) {
-      const amount = document.getElementById("amountInput").value;
-      const desc = document.getElementById("descInput").value.trim();
-      const statusBadge = document.getElementById("statusBadge");
-
-      if (!amount || Number(amount) <= 0) {
-        alert("Lütfen geçerli bir tutar girin.");
-        return;
-      }
-
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const day = String(now.getDate()).padStart(2, '0');
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-
-      const payload = {
-        date: `${year}-${month}-${day}`,
-        time: `${hours}:${minutes}`,
-        mainCategory: selectedMainCat,
-        subCategory: subCat,
-        amount: parseFloat(amount),
-        description: desc,
-        period: `${year}-${month}`
-      };
-
-      statusBadge.innerText = "Kaydediliyor...";
-      statusBadge.className = "text-xs px-2.5 py-1 rounded-full bg-amber-950 text-amber-300 animate-pulse";
-
-      try {
-        await fetch(SCRIPT_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-
-        document.getElementById("amountInput").value = "";
-        document.getElementById("descInput").value = "";
-        resetCategorySelection();
-
-        statusBadge.innerText = "Kaydedildi!";
-        statusBadge.className = "text-xs px-2.5 py-1 rounded-full bg-emerald-950 text-emerald-300";
-        setTimeout(() => {
-          statusBadge.innerText = "Hazır";
-          statusBadge.className = "text-xs px-2.5 py-1 rounded-full bg-slate-800 text-slate-400";
-        }, 2500);
-
-      } catch (error) {
-        statusBadge.innerText = "Hata!";
-        statusBadge.className = "text-xs px-2.5 py-1 rounded-full bg-red-950 text-red-300";
-      }
-    }
-
-    function switchTab(tab) {
-      if (tab === 'entry') {
-        document.getElementById("entryView").classList.remove("hidden");
-        document.getElementById("reportView").classList.add("hidden");
-        document.getElementById("pageTitle").innerText = "Harcama Girişi";
-        document.getElementById("navEntryBtn").className = "flex flex-col items-center space-y-1 text-emerald-400";
-        document.getElementById("navReportBtn").className = "flex flex-col items-center space-y-1 text-slate-500";
-      } else {
-        document.getElementById("entryView").classList.add("hidden");
-        document.getElementById("reportView").classList.remove("hidden");
-        document.getElementById("pageTitle").innerText = "Aylık Özet";
-        document.getElementById("navReportBtn").className = "flex flex-col items-center space-y-1 text-emerald-400";
-        document.getElementById("navEntryBtn").className = "flex flex-col items-center space-y-1 text-slate-500";
-        loadMonthlyReport();
-      }
-    }
-
-    function changeMonth(offset) {
-      currentReportDate.setMonth(currentReportDate.getMonth() + offset);
-      loadMonthlyReport();
-    }
-
-    // CORS engelini aşan JSONP veri yükleyici
-    function loadMonthlyReport() {
-      const year = currentReportDate.getFullYear();
-      const month = String(currentReportDate.getMonth() + 1).padStart(2, '0');
-      const period = `${year}-${month}`;
-
-      document.getElementById("selectedPeriodLabel").innerText = `${period}`;
-      const listContainer = document.getElementById("reportCategoryList");
-      listContainer.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Veriler çekiliyor...</p>`;
-
-      const oldScript = document.getElementById("jsonp-report-script");
-      if (oldScript) oldScript.remove();
-
-      window.handleReportData = function(data) {
-        document.getElementById("reportTotalSpend").innerText = `₺ ${data.totalSpend.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}`;
-        listContainer.innerHTML = "";
-
-        if (data.totalSpend === 0) {
-          listContainer.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Bu ay henüz bir harcama kaydedilmedi.</p>`;
-          return;
-        }
-
-        const sortedCats = Object.entries(data.categories).sort((a, b) => b[1] - a[1]);
-
-        sortedCats.forEach(([catName, amount]) => {
-          const pct = ((amount / data.totalSpend) * 100).toFixed(1);
-          const icon = CATEGORIES[catName] ? CATEGORIES[catName].icon : "📌";
-
-          const row = document.createElement("div");
-          row.className = "space-y-1";
-          row.innerHTML = `
-            <div class="flex justify-between items-center text-xs">
-              <span class="font-medium text-slate-300 flex items-center gap-1.5">${icon} ${catName}</span>
-              <span class="font-bold text-slate-100">₺ ${amount.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} <span class="text-slate-400 font-normal">(%${pct})</span></span>
-            </div>
-            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-              <div class="bg-emerald-500 h-2 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
-            </div>
-          `;
-          listContainer.appendChild(row);
-        });
-      };
-
-      const script = document.createElement("script");
-      script.id = "jsonp-report-script";
-      script.src = `${SCRIPT_URL}?period=${period}&callback=handleReportData&_=${new Date().getTime()}`;
-      script.onerror = function() {
-        listContainer.innerHTML = `<p class="text-xs text-red-400 text-center py-4">Veri yüklenemedi. Lütfen internet bağlantını veya script sürümünü kontrol et.</p>`;
-      };
-      document.body.appendChild(script);
-    }
-  </script>
 </body>
+
 </html>
