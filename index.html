@@ -15,6 +15,7 @@
 
   <div class="w-full max-w-md flex flex-col space-y-4">
     
+    <!-- Başlık -->
     <header class="flex justify-between items-center py-2 border-b border-slate-800">
       <h1 id="pageTitle" class="text-lg font-semibold tracking-wide text-slate-200">Harcama Girişi</h1>
       <span id="statusBadge" class="text-xs px-2.5 py-1 rounded-full bg-slate-800 text-slate-400">Hazır</span>
@@ -92,7 +93,8 @@
   </nav>
 
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzvG8-AI8vr823_OIBmWhSVNjN8mNXAjI3XlycaSn4Dh97aNE63zwSTVqni1VcJdAtU/exec";
+    // Yeni dağıtım URL'in entegre edildi
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz14ItYilxfdHDyNowumHNGUeYYRddF53B-3YJ863icIcwbZDaK1h8BwrDPl8VNNdq3/exec";
 
     const CATEGORIES = {
       "Market": { icon: "🛒", subs: ["Ev İhtiyaçları", "Atıştırmalık"] },
@@ -230,11 +232,9 @@
       const listContainer = document.getElementById("reportCategoryList");
       listContainer.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Veriler çekiliyor...</p>`;
 
-      // Eski script etiketini temizle
       const oldScript = document.getElementById("jsonp-report-script");
       if (oldScript) oldScript.remove();
 
-      // JSONP callback fonksiyonunu tanımla
       window.handleReportData = function(data) {
         document.getElementById("reportTotalSpend").innerText = `₺ ${data.totalSpend.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}`;
         listContainer.innerHTML = "";
@@ -265,7 +265,6 @@
         });
       };
 
-      // Tarayıcı güvenlik engelini aşarak veriyi çeken dinamik script
       const script = document.createElement("script");
       script.id = "jsonp-report-script";
       script.src = `${SCRIPT_URL}?period=${period}&callback=handleReportData&_=${new Date().getTime()}`;
