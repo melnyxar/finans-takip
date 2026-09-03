@@ -123,8 +123,6 @@
     >
 
 
-      <!-- TUTAR -->
-
       <div
         class="
           bg-slate-900
@@ -196,8 +194,6 @@
 
 
 
-      <!-- AÇIKLAMA -->
-
       <input
         id="expenseDescription"
         type="text"
@@ -221,8 +217,6 @@
       >
 
 
-
-      <!-- ANA KATEGORİ -->
 
       <div>
 
@@ -252,8 +246,6 @@
 
 
 
-      <!-- ALT KATEGORİ -->
-
       <div
         id="subCategorySection"
         class="hidden"
@@ -282,7 +274,6 @@
           <button
             type="button"
             onclick="resetCategorySelection()"
-
             class="
               text-xs
               text-slate-500
@@ -301,6 +292,146 @@
             grid
             grid-cols-2
             gap-2
+          "
+        ></div>
+
+      </div>
+
+
+    </main>
+
+
+
+    <!-- ==================================================
+         GELİR GİRİŞİ
+    =================================================== -->
+
+    <main
+      id="incomeView"
+      class="
+        hidden
+        mt-4
+        space-y-4
+      "
+    >
+
+
+      <div
+        class="
+          bg-slate-900
+          border
+          border-slate-800
+          rounded-2xl
+          p-5
+          text-center
+        "
+      >
+
+        <label
+          class="
+            text-xs
+            text-slate-400
+            font-medium
+            tracking-wider
+            uppercase
+            block
+            mb-2
+          "
+        >
+          Gelir Tutarı
+        </label>
+
+
+        <div
+          class="
+            flex
+            items-center
+            justify-center
+            gap-2
+          "
+        >
+
+          <span
+            class="
+              text-3xl
+              font-bold
+              text-emerald-400
+            "
+          >
+            ₺
+          </span>
+
+
+          <input
+            id="incomeAmount"
+            type="number"
+            step="0.01"
+            min="0"
+            placeholder="0.00"
+
+            class="
+              bg-transparent
+              text-4xl
+              font-bold
+              w-48
+              text-center
+              text-white
+              focus:outline-none
+              placeholder-slate-600
+            "
+          >
+
+        </div>
+
+      </div>
+
+
+
+      <input
+        id="incomeDescription"
+        type="text"
+        maxlength="150"
+        placeholder="Kısa açıklama (opsiyonel)..."
+
+        class="
+          w-full
+          bg-slate-900
+          border
+          border-slate-800
+          rounded-xl
+          px-4
+          py-3
+          text-sm
+          text-slate-200
+          placeholder-slate-500
+          focus:outline-none
+          focus:border-emerald-500
+        "
+      >
+
+
+
+      <div>
+
+        <span
+          class="
+            text-xs
+            text-slate-400
+            font-medium
+            block
+            mb-2
+          "
+        >
+          Gelir Türü Seç
+        </span>
+
+
+        <div
+          id="incomeTypesGrid"
+          class="
+            grid
+            grid-cols-2
+            gap-2.5
           "
         ></div>
 
@@ -337,7 +468,9 @@
 
 
     <button
+      id="navExpenseBtn"
       type="button"
+      onclick="switchTab('expense')"
 
       class="
         flex
@@ -348,16 +481,9 @@
       "
     >
 
-      <span class="text-lg">
-        ➕
-      </span>
+      <span class="text-lg">➕</span>
 
-      <span
-        class="
-          text-xs
-          font-medium
-        "
-      >
+      <span class="text-xs font-medium">
         Harcama
       </span>
 
@@ -366,8 +492,9 @@
 
 
     <button
+      id="navIncomeBtn"
       type="button"
-      onclick="showComingSoon('Gelir')"
+      onclick="switchTab('income')"
 
       class="
         flex
@@ -378,16 +505,9 @@
       "
     >
 
-      <span class="text-lg">
-        💰
-      </span>
+      <span class="text-lg">💰</span>
 
-      <span
-        class="
-          text-xs
-          font-medium
-        "
-      >
+      <span class="text-xs font-medium">
         Gelir
       </span>
 
@@ -396,8 +516,9 @@
 
 
     <button
+      id="navSummaryBtn"
       type="button"
-      onclick="showComingSoon('Özet')"
+      onclick="showComingSoon()"
 
       class="
         flex
@@ -408,16 +529,9 @@
       "
     >
 
-      <span class="text-lg">
-        📊
-      </span>
+      <span class="text-lg">📊</span>
 
-      <span
-        class="
-          text-xs
-          font-medium
-        "
-      >
+      <span class="text-xs font-medium">
         Özet
       </span>
 
@@ -432,7 +546,7 @@
 
 
     // =====================================================
-    // GOOGLE APPS SCRIPT
+    // APPS SCRIPT
     // =====================================================
 
     const SCRIPT_URL =
@@ -454,7 +568,6 @@
         ]
       },
 
-
       "Yemek": {
         icon: "🍔",
         subs: [
@@ -462,7 +575,6 @@
           "Yemek Siparişi"
         ]
       },
-
 
       "Ulaşım": {
         icon: "🚌",
@@ -473,7 +585,6 @@
         ]
       },
 
-
       "Eğlence & Sosyal": {
         icon: "🎟️",
         subs: [
@@ -483,7 +594,6 @@
           "Sosyal Aktivite"
         ]
       },
-
 
       "Üniversite": {
         icon: "🎓",
@@ -496,7 +606,6 @@
         ]
       },
 
-
       "Sabit Abonelikler": {
         icon: "💳",
         subs: [
@@ -505,7 +614,6 @@
           "Dijital Abonelik"
         ]
       },
-
 
       "Kişisel Bakım & Sağlık": {
         icon: "✂️",
@@ -520,12 +628,141 @@
 
 
 
+    // =====================================================
+    // GELİR TÜRLERİ
+    // =====================================================
+
+    const INCOME_TYPES = {
+
+      "Aile Desteği": "👨‍👩‍👦",
+
+      "Burs": "🎓",
+
+      "İş / Freelance": "💻",
+
+      "İade / Geri Ödeme": "💸",
+
+      "Hediye": "🎁",
+
+      "Diğer": "💰"
+
+    };
+
+
+
     let selectedMainCategory = null;
 
 
 
     // =====================================================
-    // ANA KATEGORİLERİ OLUŞTUR
+    // SEKME DEĞİŞTİR
+    // =====================================================
+
+    function switchTab(tab) {
+
+      const expenseView =
+        document.getElementById(
+          "expenseView"
+        );
+
+      const incomeView =
+        document.getElementById(
+          "incomeView"
+        );
+
+      const expenseButton =
+        document.getElementById(
+          "navExpenseBtn"
+        );
+
+      const incomeButton =
+        document.getElementById(
+          "navIncomeBtn"
+        );
+
+
+      expenseView.classList.add(
+        "hidden"
+      );
+
+      incomeView.classList.add(
+        "hidden"
+      );
+
+
+      expenseButton.classList.remove(
+        "text-emerald-400"
+      );
+
+      expenseButton.classList.add(
+        "text-slate-500"
+      );
+
+
+      incomeButton.classList.remove(
+        "text-emerald-400"
+      );
+
+      incomeButton.classList.add(
+        "text-slate-500"
+      );
+
+
+      if (tab === "expense") {
+
+        expenseView.classList.remove(
+          "hidden"
+        );
+
+        expenseButton.classList.remove(
+          "text-slate-500"
+        );
+
+        expenseButton.classList.add(
+          "text-emerald-400"
+        );
+
+        document.getElementById(
+          "pageTitle"
+        ).innerText =
+          "Harcama Girişi";
+
+      }
+
+
+      if (tab === "income") {
+
+        incomeView.classList.remove(
+          "hidden"
+        );
+
+        incomeButton.classList.remove(
+          "text-slate-500"
+        );
+
+        incomeButton.classList.add(
+          "text-emerald-400"
+        );
+
+        document.getElementById(
+          "pageTitle"
+        ).innerText =
+          "Gelir Girişi";
+
+      }
+
+
+      setStatus(
+        "Hazır",
+        "normal"
+      );
+
+    }
+
+
+
+    // =====================================================
+    // HARCAMA ANA KATEGORİLER
     // =====================================================
 
     function createMainCategories() {
@@ -536,19 +773,18 @@
         );
 
 
-      grid.innerHTML = "";
-
-
       Object.entries(
         EXPENSE_CATEGORIES
-      ).forEach(([name, info]) => {
-
+      ).forEach(function ([name, info]) {
 
         const button =
-          document.createElement("button");
+          document.createElement(
+            "button"
+          );
 
 
-        button.type = "button";
+        button.type =
+          "button";
 
 
         button.className =
@@ -559,8 +795,7 @@
           "p-3 rounded-xl " +
           "text-left " +
           "hover:border-slate-700 " +
-          "active:bg-slate-800 " +
-          "transition-all";
+          "active:bg-slate-800";
 
 
         button.innerHTML = `
@@ -582,17 +817,20 @@
         `;
 
 
-        button.onclick = function () {
+        button.onclick =
+          function () {
 
-          selectMainCategory(
-            name,
-            button
-          );
+            selectMainCategory(
+              name,
+              button
+            );
 
-        };
+          };
 
 
-        grid.appendChild(button);
+        grid.appendChild(
+          button
+        );
 
       });
 
@@ -608,7 +846,6 @@
       categoryName,
       selectedButton
     ) {
-
 
       selectedMainCategory =
         categoryName;
@@ -643,19 +880,12 @@
 
 
     // =====================================================
-    // ALT KATEGORİLERİ OLUŞTUR
+    // ALT KATEGORİ
     // =====================================================
 
     function createSubCategories(
       categoryName
     ) {
-
-
-      const section =
-        document.getElementById(
-          "subCategorySection"
-        );
-
 
       const grid =
         document.getElementById(
@@ -663,66 +893,77 @@
         );
 
 
-      grid.innerHTML = "";
+      grid.innerHTML =
+        "";
 
 
       EXPENSE_CATEGORIES[
         categoryName
-      ].subs.forEach(function (subCategory) {
+      ].subs.forEach(
+        function (subCategory) {
+
+          const button =
+            document.createElement(
+              "button"
+            );
 
 
-        const button =
-          document.createElement("button");
+          button.type =
+            "button";
 
 
-        button.type = "button";
+          button.className =
+            "bg-emerald-950/40 " +
+            "border border-emerald-800/60 " +
+            "text-emerald-200 " +
+            "p-3 rounded-xl " +
+            "text-xs font-semibold " +
+            "hover:bg-emerald-900/50 " +
+            "active:scale-95";
 
 
-        button.className =
-          "bg-emerald-950/40 " +
-          "border border-emerald-800/60 " +
-          "text-emerald-200 " +
-          "p-3 rounded-xl " +
-          "text-xs font-semibold " +
-          "hover:bg-emerald-900/50 " +
-          "active:scale-95 " +
-          "transition-all";
+          button.innerText =
+            subCategory;
 
 
-        button.innerText =
-          subCategory;
+          button.onclick =
+            function () {
+
+              submitExpense(
+                subCategory
+              );
+
+            };
 
 
-        button.onclick = function () {
-
-          submitExpense(
-            subCategory
+          grid.appendChild(
+            button
           );
 
-        };
-
-
-        grid.appendChild(button);
-
-      });
-
-
-      section.classList.remove(
-        "hidden"
+        }
       );
+
+
+      document
+        .getElementById(
+          "subCategorySection"
+        )
+        .classList.remove(
+          "hidden"
+        );
 
     }
 
 
 
     // =====================================================
-    // KATEGORİ SEÇİMİNİ TEMİZLE
+    // HARCAMA KATEGORİ TEMİZLE
     // =====================================================
 
     function resetCategorySelection() {
 
-
-      selectedMainCategory = null;
+      selectedMainCategory =
+        null;
 
 
       document
@@ -752,58 +993,87 @@
 
 
     // =====================================================
-    // HARCAMA KAYDET
+    // GELİR BUTONLARI
     // =====================================================
 
-    async function submitExpense(
-      subCategory
-    ) {
+    function createIncomeTypes() {
 
-
-      const amountInput =
+      const grid =
         document.getElementById(
-          "expenseAmount"
+          "incomeTypesGrid"
         );
 
 
-      const descriptionInput =
-        document.getElementById(
-          "expenseDescription"
-        );
+      Object.entries(
+        INCOME_TYPES
+      ).forEach(
+        function ([name, icon]) {
+
+          const button =
+            document.createElement(
+              "button"
+            );
 
 
-      const amount =
-        Number(amountInput.value);
+          button.type =
+            "button";
 
 
-      const description =
-        descriptionInput.value.trim();
+          button.className =
+            "flex items-center gap-2 " +
+            "bg-slate-900 " +
+            "border border-slate-800 " +
+            "p-3 rounded-xl " +
+            "text-left " +
+            "hover:border-emerald-700 " +
+            "active:bg-slate-800";
 
 
-      if (
-        !amount ||
-        amount <= 0
-      ) {
+          button.innerHTML = `
 
-        alert(
-          "Lütfen geçerli bir harcama tutarı gir."
-        );
+            <span class="text-xl">
+              ${icon}
+            </span>
 
-        return;
+            <span
+              class="
+                text-sm
+                font-medium
+                text-slate-200
+              "
+            >
+              ${name}
+            </span>
 
-      }
+          `;
 
 
-      if (!selectedMainCategory) {
+          button.onclick =
+            function () {
 
-        alert(
-          "Lütfen bir kategori seç."
-        );
+              submitIncome(
+                name
+              );
 
-        return;
+            };
 
-      }
 
+          grid.appendChild(
+            button
+          );
+
+        }
+      );
+
+    }
+
+
+
+    // =====================================================
+    // TARİH BİLGİLERİ
+    // =====================================================
+
+    function getDateInfo() {
 
       const now =
         new Date();
@@ -849,16 +1119,68 @@
         );
 
 
-      const payload = {
-
-        type:
-          "expense",
+      return {
 
         date:
           `${year}-${month}-${day}`,
 
         time:
           `${hours}:${minutes}`,
+
+        period:
+          `${year}-${month}`
+
+      };
+
+    }
+
+
+
+    // =====================================================
+    // HARCAMA KAYDET
+    // =====================================================
+
+    async function submitExpense(
+      subCategory
+    ) {
+
+      const amountInput =
+        document.getElementById(
+          "expenseAmount"
+        );
+
+
+      const amount =
+        Number(
+          amountInput.value
+        );
+
+
+      if (!amount || amount <= 0) {
+
+        alert(
+          "Lütfen geçerli bir harcama tutarı gir."
+        );
+
+        return;
+
+      }
+
+
+      const dateInfo =
+        getDateInfo();
+
+
+      const payload = {
+
+        type:
+          "expense",
+
+        date:
+          dateInfo.date,
+
+        time:
+          dateInfo.time,
 
         mainCategory:
           selectedMainCategory,
@@ -870,13 +1192,137 @@
           amount,
 
         description:
-          description,
+          document
+            .getElementById(
+              "expenseDescription"
+            )
+            .value
+            .trim(),
 
         period:
-          `${year}-${month}`
+          dateInfo.period
 
       };
 
+
+      await sendData(
+        payload,
+        function () {
+
+          amountInput.value =
+            "";
+
+          document
+            .getElementById(
+              "expenseDescription"
+            )
+            .value =
+              "";
+
+          resetCategorySelection();
+
+        }
+      );
+
+    }
+
+
+
+    // =====================================================
+    // GELİR KAYDET
+    // =====================================================
+
+    async function submitIncome(
+      incomeType
+    ) {
+
+      const amountInput =
+        document.getElementById(
+          "incomeAmount"
+        );
+
+
+      const amount =
+        Number(
+          amountInput.value
+        );
+
+
+      if (!amount || amount <= 0) {
+
+        alert(
+          "Lütfen geçerli bir gelir tutarı gir."
+        );
+
+        return;
+
+      }
+
+
+      const dateInfo =
+        getDateInfo();
+
+
+      const payload = {
+
+        type:
+          "income",
+
+        date:
+          dateInfo.date,
+
+        time:
+          dateInfo.time,
+
+        incomeType:
+          incomeType,
+
+        amount:
+          amount,
+
+        description:
+          document
+            .getElementById(
+              "incomeDescription"
+            )
+            .value
+            .trim(),
+
+        period:
+          dateInfo.period
+
+      };
+
+
+      await sendData(
+        payload,
+        function () {
+
+          amountInput.value =
+            "";
+
+          document
+            .getElementById(
+              "incomeDescription"
+            )
+            .value =
+              "";
+
+        }
+      );
+
+    }
+
+
+
+    // =====================================================
+    // VERİ GÖNDER
+    // =====================================================
+
+    async function sendData(
+      payload,
+      onSuccess
+    ) {
 
       setStatus(
         "Kaydediliyor...",
@@ -885,7 +1331,6 @@
 
 
       try {
-
 
         await fetch(
           SCRIPT_URL,
@@ -911,12 +1356,9 @@
         );
 
 
-        amountInput.value = "";
-
-        descriptionInput.value = "";
-
-
-        resetCategorySelection();
+        if (onSuccess) {
+          onSuccess();
+        }
 
 
         setStatus(
@@ -940,7 +1382,6 @@
 
       } catch (error) {
 
-
         console.error(
           error
         );
@@ -958,14 +1399,13 @@
 
 
     // =====================================================
-    // DURUM BADGE
+    // DURUM
     // =====================================================
 
     function setStatus(
       text,
       type
     ) {
-
 
       const badge =
         document.getElementById(
@@ -1022,16 +1462,13 @@
 
 
     // =====================================================
-    // GEÇİCİ MENÜ
+    // ÖZET - SONRAKİ ADIM
     // =====================================================
 
-    function showComingSoon(
-      pageName
-    ) {
+    function showComingSoon() {
 
       alert(
-        pageName +
-        " ekranını sonraki adımda ekleyeceğiz."
+        "Aylık Özet ekranını sonraki adımda ekleyeceğiz."
       );
 
     }
@@ -1043,6 +1480,8 @@
     // =====================================================
 
     createMainCategories();
+
+    createIncomeTypes();
 
 
   </script>
