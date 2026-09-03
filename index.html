@@ -51,9 +51,9 @@
   >
 
 
-    <!-- ==================================================
+    <!-- ===============================================
          BAŞLIK
-    =================================================== -->
+    ================================================ -->
 
     <header
       class="
@@ -77,6 +77,7 @@
         >
           Finans Takip
         </p>
+
 
         <h1
           id="pageTitle"
@@ -110,9 +111,9 @@
 
 
 
-    <!-- ==================================================
-         HARCAMA GİRİŞİ
-    =================================================== -->
+    <!-- ===============================================
+         HARCAMA
+    ================================================ -->
 
     <main
       id="expenseView"
@@ -134,26 +135,24 @@
         "
       >
 
-        <label
+        <p
           class="
             text-xs
             text-slate-400
-            font-medium
-            tracking-wider
             uppercase
-            block
+            tracking-wider
             mb-2
           "
         >
           Harcama Tutarı
-        </label>
+        </p>
 
 
         <div
           class="
             flex
-            items-center
             justify-center
+            items-center
             gap-2
           "
         >
@@ -162,7 +161,7 @@
             class="
               text-3xl
               font-bold
-              text-emerald-400
+              text-rose-400
             "
           >
             ₺
@@ -172,17 +171,17 @@
           <input
             id="expenseAmount"
             type="number"
-            step="0.01"
             min="0"
+            step="0.01"
             placeholder="0.00"
 
             class="
               bg-transparent
               text-4xl
               font-bold
-              w-48
               text-center
               text-white
+              w-48
               focus:outline-none
               placeholder-slate-600
             "
@@ -193,12 +192,14 @@
       </div>
 
 
-
       <input
         id="expenseDescription"
         type="text"
         maxlength="150"
-        placeholder="Kısa açıklama (opsiyonel)..."
+
+        placeholder="
+          Kısa açıklama (opsiyonel)...
+        "
 
         class="
           w-full
@@ -209,32 +210,28 @@
           px-4
           py-3
           text-sm
-          text-slate-200
-          placeholder-slate-500
           focus:outline-none
           focus:border-emerald-500
+          placeholder-slate-500
         "
       >
 
 
-
       <div>
 
-        <span
+        <p
           class="
             text-xs
             text-slate-400
-            font-medium
-            block
             mb-2
           "
         >
           1. Kategori Seç
-        </span>
+        </p>
 
 
         <div
-          id="mainCategoriesGrid"
+          id="expenseCategories"
           class="
             grid
             grid-cols-2
@@ -243,7 +240,6 @@
         ></div>
 
       </div>
-
 
 
       <div
@@ -255,29 +251,28 @@
           class="
             flex
             justify-between
-            items-center
             mb-2
           "
         >
 
-          <span
+          <p
             class="
               text-xs
               text-slate-400
-              font-medium
             "
           >
             2. Alt Kategori Seç
-          </span>
+          </p>
 
 
           <button
-            type="button"
-            onclick="resetCategorySelection()"
+            onclick="
+              resetExpenseCategory()
+            "
+
             class="
               text-xs
               text-slate-500
-              hover:text-slate-300
             "
           >
             Vazgeç
@@ -287,7 +282,7 @@
 
 
         <div
-          id="subCategoriesGrid"
+          id="expenseSubCategories"
           class="
             grid
             grid-cols-2
@@ -302,9 +297,9 @@
 
 
 
-    <!-- ==================================================
-         GELİR GİRİŞİ
-    =================================================== -->
+    <!-- ===============================================
+         GELİR
+    ================================================ -->
 
     <main
       id="incomeView"
@@ -327,26 +322,24 @@
         "
       >
 
-        <label
+        <p
           class="
             text-xs
             text-slate-400
-            font-medium
-            tracking-wider
             uppercase
-            block
+            tracking-wider
             mb-2
           "
         >
           Gelir Tutarı
-        </label>
+        </p>
 
 
         <div
           class="
             flex
-            items-center
             justify-center
+            items-center
             gap-2
           "
         >
@@ -365,17 +358,17 @@
           <input
             id="incomeAmount"
             type="number"
-            step="0.01"
             min="0"
+            step="0.01"
             placeholder="0.00"
 
             class="
               bg-transparent
               text-4xl
               font-bold
-              w-48
               text-center
               text-white
+              w-48
               focus:outline-none
               placeholder-slate-600
             "
@@ -386,12 +379,13 @@
       </div>
 
 
-
       <input
         id="incomeDescription"
         type="text"
         maxlength="150"
-        placeholder="Kısa açıklama (opsiyonel)..."
+        placeholder="
+          Kısa açıklama (opsiyonel)...
+        "
 
         class="
           w-full
@@ -402,32 +396,28 @@
           px-4
           py-3
           text-sm
-          text-slate-200
-          placeholder-slate-500
           focus:outline-none
           focus:border-emerald-500
+          placeholder-slate-500
         "
       >
 
 
-
       <div>
 
-        <span
+        <p
           class="
             text-xs
             text-slate-400
-            font-medium
-            block
             mb-2
           "
         >
           Gelir Türü Seç
-        </span>
+        </p>
 
 
         <div
-          id="incomeTypesGrid"
+          id="incomeTypes"
           class="
             grid
             grid-cols-2
@@ -441,13 +431,333 @@
     </main>
 
 
+
+    <!-- ===============================================
+         ÖZET
+    ================================================ -->
+
+    <main
+      id="summaryView"
+      class="
+        hidden
+        mt-4
+        space-y-4
+      "
+    >
+
+
+      <!-- AY -->
+
+      <div
+        class="
+          bg-slate-900
+          border
+          border-slate-800
+          rounded-2xl
+          p-4
+        "
+      >
+
+        <div
+          class="
+            flex
+            justify-between
+            items-center
+          "
+        >
+
+          <button
+            onclick="
+              changeMonth(-1)
+            "
+
+            class="
+              bg-slate-800
+              rounded-lg
+              px-3
+              py-2
+            "
+          >
+            ◀
+          </button>
+
+
+          <div
+            class="
+              text-center
+            "
+          >
+
+            <p
+              class="
+                text-xs
+                text-slate-500
+              "
+            >
+              DÖNEM
+            </p>
+
+            <p
+              id="summaryPeriod"
+              class="
+                font-semibold
+                mt-1
+              "
+            >
+              ---
+            </p>
+
+          </div>
+
+
+          <button
+            onclick="
+              changeMonth(1)
+            "
+
+            class="
+              bg-slate-800
+              rounded-lg
+              px-3
+              py-2
+            "
+          >
+            ▶
+          </button>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- GELİR / HARCAMA -->
+
+      <div
+        class="
+          grid
+          grid-cols-2
+          gap-3
+        "
+      >
+
+
+        <div
+          class="
+            bg-slate-900
+            border
+            border-slate-800
+            rounded-2xl
+            p-4
+          "
+        >
+
+          <p
+            class="
+              text-xs
+              text-slate-500
+            "
+          >
+            TOPLAM GELİR
+          </p>
+
+
+          <p
+            id="totalIncome"
+            class="
+              text-xl
+              font-bold
+              text-emerald-400
+              mt-2
+            "
+          >
+            ₺ 0,00
+          </p>
+
+        </div>
+
+
+
+        <div
+          class="
+            bg-slate-900
+            border
+            border-slate-800
+            rounded-2xl
+            p-4
+          "
+        >
+
+          <p
+            class="
+              text-xs
+              text-slate-500
+            "
+          >
+            TOPLAM HARCAMA
+          </p>
+
+
+          <p
+            id="totalSpend"
+            class="
+              text-xl
+              font-bold
+              text-rose-400
+              mt-2
+            "
+          >
+            ₺ 0,00
+          </p>
+
+        </div>
+
+
+      </div>
+
+
+
+      <!-- NET -->
+
+      <div
+        class="
+          bg-slate-900
+          border
+          border-slate-800
+          rounded-2xl
+          p-5
+          text-center
+        "
+      >
+
+        <p
+          class="
+            text-xs
+            text-slate-500
+            uppercase
+            tracking-wider
+          "
+        >
+          Bu Ay Net
+        </p>
+
+
+        <p
+          id="netAmount"
+          class="
+            text-3xl
+            font-bold
+            mt-2
+          "
+        >
+          ₺ 0,00
+        </p>
+
+      </div>
+
+
+
+      <!-- HARCAMA DAĞILIMI -->
+
+      <div
+        class="
+          bg-slate-900
+          border
+          border-slate-800
+          rounded-2xl
+          p-4
+        "
+      >
+
+        <h3
+          class="
+            text-xs
+            text-slate-400
+            font-semibold
+            uppercase
+            mb-4
+          "
+        >
+          Harcama Dağılımı
+        </h3>
+
+
+        <div
+          id="expenseSummaryList"
+          class="space-y-4"
+        >
+
+          <p
+            class="
+              text-xs
+              text-slate-500
+              text-center
+            "
+          >
+            Veriler yükleniyor...
+          </p>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- GELİR DAĞILIMI -->
+
+      <div
+        class="
+          bg-slate-900
+          border
+          border-slate-800
+          rounded-2xl
+          p-4
+        "
+      >
+
+        <h3
+          class="
+            text-xs
+            text-slate-400
+            font-semibold
+            uppercase
+            mb-4
+          "
+        >
+          Gelir Dağılımı
+        </h3>
+
+
+        <div
+          id="incomeSummaryList"
+          class="space-y-4"
+        >
+
+          <p
+            class="
+              text-xs
+              text-slate-500
+              text-center
+            "
+          >
+            Henüz gelir yok.
+          </p>
+
+        </div>
+
+      </div>
+
+
+    </main>
+
+
   </div>
 
 
 
-  <!-- ==================================================
+  <!-- ===============================================
        ALT MENÜ
-  =================================================== -->
+  ================================================ -->
 
   <nav
     class="
@@ -456,7 +766,6 @@
       left-0
       right-0
       bg-slate-900/95
-      backdrop-blur-md
       border-t
       border-slate-800
       flex
@@ -468,9 +777,10 @@
 
 
     <button
-      id="navExpenseBtn"
-      type="button"
-      onclick="switchTab('expense')"
+      id="navExpense"
+      onclick="
+        switchTab('expense')
+      "
 
       class="
         flex
@@ -480,21 +790,18 @@
         text-emerald-400
       "
     >
-
-      <span class="text-lg">➕</span>
-
-      <span class="text-xs font-medium">
+      <span>➕</span>
+      <span class="text-xs">
         Harcama
       </span>
-
     </button>
 
 
-
     <button
-      id="navIncomeBtn"
-      type="button"
-      onclick="switchTab('income')"
+      id="navIncome"
+      onclick="
+        switchTab('income')
+      "
 
       class="
         flex
@@ -504,21 +811,18 @@
         text-slate-500
       "
     >
-
-      <span class="text-lg">💰</span>
-
-      <span class="text-xs font-medium">
+      <span>💰</span>
+      <span class="text-xs">
         Gelir
       </span>
-
     </button>
 
 
-
     <button
-      id="navSummaryBtn"
-      type="button"
-      onclick="showComingSoon()"
+      id="navSummary"
+      onclick="
+        switchTab('summary')
+      "
 
       class="
         flex
@@ -528,13 +832,10 @@
         text-slate-500
       "
     >
-
-      <span class="text-lg">📊</span>
-
-      <span class="text-xs font-medium">
+      <span>📊</span>
+      <span class="text-xs">
         Özet
       </span>
-
     </button>
 
 
@@ -545,18 +846,18 @@
   <script>
 
 
-    // =====================================================
+    // ===============================================
     // APPS SCRIPT
-    // =====================================================
+    // ===============================================
 
     const SCRIPT_URL =
       "https://script.google.com/macros/s/AKfycbz14ItYilxfdHDyNowumHNGUeYYRddF53B-3YJ863icIcwbZDaK1h8BwrDPl8VNNdq3/exec";
 
 
 
-    // =====================================================
+    // ===============================================
     // HARCAMA KATEGORİLERİ
-    // =====================================================
+    // ===============================================
 
     const EXPENSE_CATEGORIES = {
 
@@ -628,10 +929,6 @@
 
 
 
-    // =====================================================
-    // GELİR TÜRLERİ
-    // =====================================================
-
     const INCOME_TYPES = {
 
       "Aile Desteği": "👨‍👩‍👦",
@@ -650,106 +947,124 @@
 
 
 
-    let selectedMainCategory = null;
+    let selectedExpenseCategory =
+      null;
+
+
+    let summaryDate =
+      new Date();
 
 
 
-    // =====================================================
-    // SEKME DEĞİŞTİR
-    // =====================================================
+    // ===============================================
+    // SEKME
+    // ===============================================
 
     function switchTab(tab) {
 
-      const expenseView =
-        document.getElementById(
-          "expenseView"
+      const views = {
+        expense:
+          document.getElementById(
+            "expenseView"
+          ),
+
+        income:
+          document.getElementById(
+            "incomeView"
+          ),
+
+        summary:
+          document.getElementById(
+            "summaryView"
+          )
+      };
+
+
+      Object.values(
+        views
+      ).forEach(function(view) {
+
+        view.classList.add(
+          "hidden"
         );
 
-      const incomeView =
-        document.getElementById(
-          "incomeView"
-        );
-
-      const expenseButton =
-        document.getElementById(
-          "navExpenseBtn"
-        );
-
-      const incomeButton =
-        document.getElementById(
-          "navIncomeBtn"
-        );
+      });
 
 
-      expenseView.classList.add(
+      views[
+        tab
+      ].classList.remove(
         "hidden"
       );
 
-      incomeView.classList.add(
-        "hidden"
-      );
+
+      const navs = {
+
+        expense:
+          document.getElementById(
+            "navExpense"
+          ),
+
+        income:
+          document.getElementById(
+            "navIncome"
+          ),
+
+        summary:
+          document.getElementById(
+            "navSummary"
+          )
+
+      };
 
 
-      expenseButton.classList.remove(
-        "text-emerald-400"
-      );
+      Object.values(
+        navs
+      ).forEach(function(nav) {
 
-      expenseButton.classList.add(
+        nav.classList.remove(
+          "text-emerald-400"
+        );
+
+        nav.classList.add(
+          "text-slate-500"
+        );
+
+      });
+
+
+      navs[
+        tab
+      ].classList.remove(
         "text-slate-500"
       );
 
 
-      incomeButton.classList.remove(
+      navs[
+        tab
+      ].classList.add(
         "text-emerald-400"
       );
 
-      incomeButton.classList.add(
-        "text-slate-500"
-      );
+
+      const titles = {
+
+        expense:
+          "Harcama Girişi",
+
+        income:
+          "Gelir Girişi",
+
+        summary:
+          "Aylık Özet"
+
+      };
 
 
-      if (tab === "expense") {
-
-        expenseView.classList.remove(
-          "hidden"
-        );
-
-        expenseButton.classList.remove(
-          "text-slate-500"
-        );
-
-        expenseButton.classList.add(
-          "text-emerald-400"
-        );
-
-        document.getElementById(
-          "pageTitle"
-        ).innerText =
-          "Harcama Girişi";
-
-      }
-
-
-      if (tab === "income") {
-
-        incomeView.classList.remove(
-          "hidden"
-        );
-
-        incomeButton.classList.remove(
-          "text-slate-500"
-        );
-
-        incomeButton.classList.add(
-          "text-emerald-400"
-        );
-
-        document.getElementById(
-          "pageTitle"
-        ).innerText =
-          "Gelir Girişi";
-
-      }
+      document.getElementById(
+        "pageTitle"
+      ).innerText =
+        titles[tab];
 
 
       setStatus(
@@ -757,150 +1072,34 @@
         "normal"
       );
 
+
+      if (
+        tab === "summary"
+      ) {
+
+        loadSummary();
+      }
+
     }
 
 
 
-    // =====================================================
-    // HARCAMA ANA KATEGORİLER
-    // =====================================================
+    // ===============================================
+    // HARCAMA KATEGORİLERİ
+    // ===============================================
 
-    function createMainCategories() {
+    function createExpenseCategories() {
 
       const grid =
         document.getElementById(
-          "mainCategoriesGrid"
+          "expenseCategories"
         );
 
 
       Object.entries(
         EXPENSE_CATEGORIES
-      ).forEach(function ([name, info]) {
-
-        const button =
-          document.createElement(
-            "button"
-          );
-
-
-        button.type =
-          "button";
-
-
-        button.className =
-          "main-category-button " +
-          "flex items-center gap-2 " +
-          "bg-slate-900 " +
-          "border border-slate-800 " +
-          "p-3 rounded-xl " +
-          "text-left " +
-          "hover:border-slate-700 " +
-          "active:bg-slate-800";
-
-
-        button.innerHTML = `
-
-          <span class="text-xl">
-            ${info.icon}
-          </span>
-
-          <span
-            class="
-              text-sm
-              font-medium
-              text-slate-200
-            "
-          >
-            ${name}
-          </span>
-
-        `;
-
-
-        button.onclick =
-          function () {
-
-            selectMainCategory(
-              name,
-              button
-            );
-
-          };
-
-
-        grid.appendChild(
-          button
-        );
-
-      });
-
-    }
-
-
-
-    // =====================================================
-    // ANA KATEGORİ SEÇ
-    // =====================================================
-
-    function selectMainCategory(
-      categoryName,
-      selectedButton
-    ) {
-
-      selectedMainCategory =
-        categoryName;
-
-
-      document
-        .querySelectorAll(
-          ".main-category-button"
-        )
-        .forEach(function (button) {
-
-          button.classList.remove(
-            "border-emerald-500",
-            "bg-slate-800"
-          );
-
-        });
-
-
-      selectedButton.classList.add(
-        "border-emerald-500",
-        "bg-slate-800"
-      );
-
-
-      createSubCategories(
-        categoryName
-      );
-
-    }
-
-
-
-    // =====================================================
-    // ALT KATEGORİ
-    // =====================================================
-
-    function createSubCategories(
-      categoryName
-    ) {
-
-      const grid =
-        document.getElementById(
-          "subCategoriesGrid"
-        );
-
-
-      grid.innerHTML =
-        "";
-
-
-      EXPENSE_CATEGORIES[
-        categoryName
-      ].subs.forEach(
-        function (subCategory) {
+      ).forEach(
+        function([name, info]) {
 
           const button =
             document.createElement(
@@ -908,35 +1107,115 @@
             );
 
 
-          button.type =
-            "button";
-
-
           button.className =
-            "bg-emerald-950/40 " +
-            "border border-emerald-800/60 " +
-            "text-emerald-200 " +
-            "p-3 rounded-xl " +
-            "text-xs font-semibold " +
-            "hover:bg-emerald-900/50 " +
-            "active:scale-95";
+            "expense-category flex items-center gap-2 bg-slate-900 border border-slate-800 p-3 rounded-xl text-left";
 
 
-          button.innerText =
-            subCategory;
+          button.innerHTML = `
+
+            <span class="text-xl">
+              ${info.icon}
+            </span>
+
+            <span class="text-sm font-medium">
+              ${name}
+            </span>
+
+          `;
 
 
           button.onclick =
-            function () {
+            function() {
 
-              submitExpense(
-                subCategory
+              selectExpenseCategory(
+                name,
+                button
               );
 
             };
 
 
           grid.appendChild(
+            button
+          );
+
+        }
+      );
+
+    }
+
+
+
+    function selectExpenseCategory(
+      name,
+      selectedButton
+    ) {
+
+      selectedExpenseCategory =
+        name;
+
+
+      document
+        .querySelectorAll(
+          ".expense-category"
+        )
+        .forEach(
+          function(button) {
+
+            button.classList.remove(
+              "border-emerald-500"
+            );
+
+          }
+        );
+
+
+      selectedButton
+        .classList.add(
+          "border-emerald-500"
+        );
+
+
+      const subGrid =
+        document.getElementById(
+          "expenseSubCategories"
+        );
+
+
+      subGrid.innerHTML =
+        "";
+
+
+      EXPENSE_CATEGORIES[
+        name
+      ].subs.forEach(
+        function(sub) {
+
+          const button =
+            document.createElement(
+              "button"
+            );
+
+
+          button.className =
+            "bg-emerald-950/40 border border-emerald-800/60 text-emerald-200 p-3 rounded-xl text-xs font-semibold";
+
+
+          button.innerText =
+            sub;
+
+
+          button.onclick =
+            function() {
+
+              submitExpense(
+                sub
+              );
+
+            };
+
+
+          subGrid.appendChild(
             button
           );
 
@@ -956,13 +1235,9 @@
 
 
 
-    // =====================================================
-    // HARCAMA KATEGORİ TEMİZLE
-    // =====================================================
+    function resetExpenseCategory() {
 
-    function resetCategorySelection() {
-
-      selectedMainCategory =
+      selectedExpenseCategory =
         null;
 
 
@@ -977,37 +1252,38 @@
 
       document
         .querySelectorAll(
-          ".main-category-button"
+          ".expense-category"
         )
-        .forEach(function (button) {
+        .forEach(
+          function(button) {
 
-          button.classList.remove(
-            "border-emerald-500",
-            "bg-slate-800"
-          );
+            button.classList.remove(
+              "border-emerald-500"
+            );
 
-        });
+          }
+        );
 
     }
 
 
 
-    // =====================================================
-    // GELİR BUTONLARI
-    // =====================================================
+    // ===============================================
+    // GELİR TÜRLERİ
+    // ===============================================
 
     function createIncomeTypes() {
 
       const grid =
         document.getElementById(
-          "incomeTypesGrid"
+          "incomeTypes"
         );
 
 
       Object.entries(
         INCOME_TYPES
       ).forEach(
-        function ([name, icon]) {
+        function([name, icon]) {
 
           const button =
             document.createElement(
@@ -1015,18 +1291,8 @@
             );
 
 
-          button.type =
-            "button";
-
-
           button.className =
-            "flex items-center gap-2 " +
-            "bg-slate-900 " +
-            "border border-slate-800 " +
-            "p-3 rounded-xl " +
-            "text-left " +
-            "hover:border-emerald-700 " +
-            "active:bg-slate-800";
+            "flex items-center gap-2 bg-slate-900 border border-slate-800 p-3 rounded-xl text-left";
 
 
           button.innerHTML = `
@@ -1035,13 +1301,7 @@
               ${icon}
             </span>
 
-            <span
-              class="
-                text-sm
-                font-medium
-                text-slate-200
-              "
-            >
+            <span class="text-sm font-medium">
               ${name}
             </span>
 
@@ -1049,7 +1309,7 @@
 
 
           button.onclick =
-            function () {
+            function() {
 
               submitIncome(
                 name
@@ -1069,9 +1329,9 @@
 
 
 
-    // =====================================================
-    // TARİH BİLGİLERİ
-    // =====================================================
+    // ===============================================
+    // TARİH
+    // ===============================================
 
     function getDateInfo() {
 
@@ -1101,7 +1361,7 @@
         );
 
 
-      const hours =
+      const hour =
         String(
           now.getHours()
         ).padStart(
@@ -1110,7 +1370,7 @@
         );
 
 
-      const minutes =
+      const minute =
         String(
           now.getMinutes()
         ).padStart(
@@ -1125,7 +1385,7 @@
           `${year}-${month}-${day}`,
 
         time:
-          `${hours}:${minutes}`,
+          `${hour}:${minute}`,
 
         period:
           `${year}-${month}`
@@ -1136,15 +1396,15 @@
 
 
 
-    // =====================================================
+    // ===============================================
     // HARCAMA KAYDET
-    // =====================================================
+    // ===============================================
 
     async function submitExpense(
       subCategory
     ) {
 
-      const amountInput =
+      const input =
         document.getElementById(
           "expenseAmount"
         );
@@ -1152,91 +1412,90 @@
 
       const amount =
         Number(
-          amountInput.value
+          input.value
         );
 
 
-      if (!amount || amount <= 0) {
+      if (
+        !amount ||
+        amount <= 0
+      ) {
 
         alert(
-          "Lütfen geçerli bir harcama tutarı gir."
+          "Geçerli bir harcama tutarı gir."
         );
 
         return;
-
       }
 
 
-      const dateInfo =
+      const date =
         getDateInfo();
 
 
-      const payload = {
-
-        type:
-          "expense",
-
-        date:
-          dateInfo.date,
-
-        time:
-          dateInfo.time,
-
-        mainCategory:
-          selectedMainCategory,
-
-        subCategory:
-          subCategory,
-
-        amount:
-          amount,
-
-        description:
-          document
-            .getElementById(
-              "expenseDescription"
-            )
-            .value
-            .trim(),
-
-        period:
-          dateInfo.period
-
-      };
-
-
       await sendData(
-        payload,
-        function () {
+        {
 
-          amountInput.value =
-            "";
+          type:
+            "expense",
 
-          document
-            .getElementById(
-              "expenseDescription"
-            )
-            .value =
-              "";
+          date:
+            date.date,
 
-          resetCategorySelection();
+          time:
+            date.time,
+
+          mainCategory:
+            selectedExpenseCategory,
+
+          subCategory:
+            subCategory,
+
+          amount:
+            amount,
+
+          description:
+            document
+              .getElementById(
+                "expenseDescription"
+              )
+              .value
+              .trim(),
+
+          period:
+            date.period
 
         }
       );
+
+
+      input.value =
+        "";
+
+
+      document
+        .getElementById(
+          "expenseDescription"
+        )
+        .value =
+          "";
+
+
+      resetExpenseCategory();
 
     }
 
 
 
-    // =====================================================
+    // ===============================================
     // GELİR KAYDET
-    // =====================================================
+    // ===============================================
 
     async function submitIncome(
       incomeType
     ) {
 
-      const amountInput =
+      const input =
         document.getElementById(
           "incomeAmount"
         );
@@ -1244,84 +1503,81 @@
 
       const amount =
         Number(
-          amountInput.value
+          input.value
         );
 
 
-      if (!amount || amount <= 0) {
+      if (
+        !amount ||
+        amount <= 0
+      ) {
 
         alert(
-          "Lütfen geçerli bir gelir tutarı gir."
+          "Geçerli bir gelir tutarı gir."
         );
 
         return;
-
       }
 
 
-      const dateInfo =
+      const date =
         getDateInfo();
 
 
-      const payload = {
-
-        type:
-          "income",
-
-        date:
-          dateInfo.date,
-
-        time:
-          dateInfo.time,
-
-        incomeType:
-          incomeType,
-
-        amount:
-          amount,
-
-        description:
-          document
-            .getElementById(
-              "incomeDescription"
-            )
-            .value
-            .trim(),
-
-        period:
-          dateInfo.period
-
-      };
-
-
       await sendData(
-        payload,
-        function () {
+        {
 
-          amountInput.value =
-            "";
+          type:
+            "income",
 
-          document
-            .getElementById(
-              "incomeDescription"
-            )
-            .value =
-              "";
+          date:
+            date.date,
+
+          time:
+            date.time,
+
+          incomeType:
+            incomeType,
+
+          amount:
+            amount,
+
+          description:
+            document
+              .getElementById(
+                "incomeDescription"
+              )
+              .value
+              .trim(),
+
+          period:
+            date.period
 
         }
       );
+
+
+      input.value =
+        "";
+
+
+      document
+        .getElementById(
+          "incomeDescription"
+        )
+        .value =
+          "";
 
     }
 
 
 
-    // =====================================================
-    // VERİ GÖNDER
-    // =====================================================
+    // ===============================================
+    // POST
+    // ===============================================
 
     async function sendData(
-      payload,
-      onSuccess
+      payload
     ) {
 
       setStatus(
@@ -1344,7 +1600,7 @@
 
             headers: {
               "Content-Type":
-                "application/json"
+                "text/plain;charset=utf-8"
             },
 
             body:
@@ -1356,11 +1612,6 @@
         );
 
 
-        if (onSuccess) {
-          onSuccess();
-        }
-
-
         setStatus(
           "Kaydedildi!",
           "success"
@@ -1368,7 +1619,7 @@
 
 
         setTimeout(
-          function () {
+          function() {
 
             setStatus(
               "Hazır",
@@ -1376,11 +1627,11 @@
             );
 
           },
-          2500
+          2000
         );
 
 
-      } catch (error) {
+      } catch(error) {
 
         console.error(
           error
@@ -1392,15 +1643,511 @@
           "error"
         );
 
+
+        throw error;
       }
 
     }
 
 
 
-    // =====================================================
-    // DURUM
-    // =====================================================
+    // ===============================================
+    // AY DEĞİŞTİR
+    // ===============================================
+
+    function changeMonth(
+      offset
+    ) {
+
+      summaryDate.setMonth(
+        summaryDate.getMonth() +
+        offset
+      );
+
+
+      loadSummary();
+
+    }
+
+
+
+    // ===============================================
+    // ÖZET YÜKLE
+    // ===============================================
+
+    function loadSummary() {
+
+      const year =
+        summaryDate.getFullYear();
+
+
+      const month =
+        String(
+          summaryDate.getMonth() + 1
+        ).padStart(
+          2,
+          "0"
+        );
+
+
+      const period =
+        `${year}-${month}`;
+
+
+      document
+        .getElementById(
+          "summaryPeriod"
+        )
+        .innerText =
+          period;
+
+
+      setStatus(
+        "Yükleniyor...",
+        "loading"
+      );
+
+
+      const old =
+        document.getElementById(
+          "summaryJsonp"
+        );
+
+
+      if (old) {
+        old.remove();
+      }
+
+
+      window.handleSummaryData =
+        function(data) {
+
+          if (
+            data.status === "error"
+          ) {
+
+            showSummaryError(
+              data.message ||
+              "Veri alınamadı."
+            );
+
+            return;
+          }
+
+
+          renderSummary(
+            data
+          );
+
+
+          setStatus(
+            "Hazır",
+            "normal"
+          );
+
+        };
+
+
+      const script =
+        document.createElement(
+          "script"
+        );
+
+
+      script.id =
+        "summaryJsonp";
+
+
+      script.src =
+        SCRIPT_URL +
+        "?period=" +
+        encodeURIComponent(
+          period
+        ) +
+        "&callback=handleSummaryData" +
+        "&_=" +
+        Date.now();
+
+
+      script.onerror =
+        function() {
+
+          showSummaryError(
+            "Özet verileri yüklenemedi."
+          );
+
+        };
+
+
+      document.body.appendChild(
+        script
+      );
+
+    }
+
+
+
+    // ===============================================
+    // ÖZET ÇİZ
+    // ===============================================
+
+    function renderSummary(
+      data
+    ) {
+
+      const totalIncome =
+        Number(
+          data.totalIncome || 0
+        );
+
+
+      const totalSpend =
+        Number(
+          data.totalSpend || 0
+        );
+
+
+      const net =
+        Number(
+          data.netAmount || 0
+        );
+
+
+      document
+        .getElementById(
+          "totalIncome"
+        )
+        .innerText =
+          formatMoney(
+            totalIncome
+          );
+
+
+      document
+        .getElementById(
+          "totalSpend"
+        )
+        .innerText =
+          formatMoney(
+            totalSpend
+          );
+
+
+      const netElement =
+        document.getElementById(
+          "netAmount"
+        );
+
+
+      netElement.innerText =
+        (net > 0 ? "+ " : "") +
+        formatMoney(net);
+
+
+      netElement.classList.remove(
+        "text-emerald-400",
+        "text-rose-400",
+        "text-slate-300"
+      );
+
+
+      if (net > 0) {
+
+        netElement.classList.add(
+          "text-emerald-400"
+        );
+
+      }
+
+      else if (net < 0) {
+
+        netElement.classList.add(
+          "text-rose-400"
+        );
+
+      }
+
+      else {
+
+        netElement.classList.add(
+          "text-slate-300"
+        );
+
+      }
+
+
+      renderDistribution(
+        "expenseSummaryList",
+        data.categories || {},
+        totalSpend,
+        EXPENSE_CATEGORIES,
+        "Bu ay harcama bulunmuyor.",
+        false
+      );
+
+
+      renderDistribution(
+        "incomeSummaryList",
+        data.incomeCategories || {},
+        totalIncome,
+        INCOME_TYPES,
+        "Bu ay gelir bulunmuyor.",
+        true
+      );
+
+    }
+
+
+
+    // ===============================================
+    // DAĞILIM ÇİZ
+    // ===============================================
+
+    function renderDistribution(
+      targetId,
+      items,
+      total,
+      iconSource,
+      emptyText,
+      incomeMode
+    ) {
+
+      const target =
+        document.getElementById(
+          targetId
+        );
+
+
+      target.innerHTML =
+        "";
+
+
+      const entries =
+        Object.entries(
+          items
+        ).sort(
+          function(a, b) {
+
+            return b[1] - a[1];
+
+          }
+        );
+
+
+      if (
+        entries.length === 0 ||
+        total <= 0
+      ) {
+
+        target.innerHTML = `
+
+          <p
+            class="
+              text-xs
+              text-slate-500
+              text-center
+              py-3
+            "
+          >
+            ${emptyText}
+          </p>
+
+        `;
+
+        return;
+      }
+
+
+      entries.forEach(
+        function([name, amount]) {
+
+          const percentage =
+            (
+              amount /
+              total *
+              100
+            ).toFixed(1);
+
+
+          let icon =
+            "📌";
+
+
+          if (incomeMode) {
+
+            icon =
+              iconSource[name] ||
+              "💰";
+
+          }
+
+          else if (
+            iconSource[name]
+          ) {
+
+            icon =
+              iconSource[name].icon;
+
+          }
+
+
+          const row =
+            document.createElement(
+              "div"
+            );
+
+
+          row.innerHTML = `
+
+            <div
+              class="
+                flex
+                justify-between
+                items-center
+                text-xs
+                mb-1.5
+              "
+            >
+
+              <span
+                class="
+                  text-slate-300
+                  font-medium
+                "
+              >
+                ${icon}
+                ${name}
+              </span>
+
+
+              <span
+                class="
+                  text-slate-200
+                  font-semibold
+                "
+              >
+                ${formatMoney(amount)}
+
+                <span
+                  class="
+                    text-slate-500
+                    font-normal
+                  "
+                >
+                  %${percentage}
+                </span>
+
+              </span>
+
+            </div>
+
+
+            <div
+              class="
+                h-2
+                bg-slate-800
+                rounded-full
+                overflow-hidden
+              "
+            >
+
+              <div
+                class="
+                  h-2
+                  ${
+                    incomeMode
+                      ? "bg-emerald-500"
+                      : "bg-rose-500"
+                  }
+                  rounded-full
+                "
+
+                style="
+                  width:
+                  ${percentage}%
+                "
+              ></div>
+
+            </div>
+
+          `;
+
+
+          target.appendChild(
+            row
+          );
+
+        }
+      );
+
+    }
+
+
+
+    // ===============================================
+    // PARA FORMAT
+    // ===============================================
+
+    function formatMoney(
+      amount
+    ) {
+
+      return (
+        "₺ " +
+        Number(
+          amount || 0
+        ).toLocaleString(
+          "tr-TR",
+          {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }
+        )
+      );
+
+    }
+
+
+
+    // ===============================================
+    // ÖZET HATA
+    // ===============================================
+
+    function showSummaryError(
+      message
+    ) {
+
+      setStatus(
+        "Hata!",
+        "error"
+      );
+
+
+      document
+        .getElementById(
+          "expenseSummaryList"
+        )
+        .innerHTML = `
+
+          <p
+            class="
+              text-xs
+              text-rose-400
+              text-center
+            "
+          >
+            ${message}
+          </p>
+
+        `;
+
+    }
+
+
+
+    // ===============================================
+    // STATUS
+    // ===============================================
 
     function setStatus(
       text,
@@ -1421,7 +2168,9 @@
         "text-xs px-2.5 py-1 rounded-full";
 
 
-      if (type === "success") {
+      if (
+        type === "success"
+      ) {
 
         badge.classList.add(
           "bg-emerald-950",
@@ -1430,7 +2179,9 @@
 
       }
 
-      else if (type === "loading") {
+      else if (
+        type === "loading"
+      ) {
 
         badge.classList.add(
           "bg-amber-950",
@@ -1439,11 +2190,13 @@
 
       }
 
-      else if (type === "error") {
+      else if (
+        type === "error"
+      ) {
 
         badge.classList.add(
-          "bg-red-950",
-          "text-red-300"
+          "bg-rose-950",
+          "text-rose-300"
         );
 
       }
@@ -1461,25 +2214,11 @@
 
 
 
-    // =====================================================
-    // ÖZET - SONRAKİ ADIM
-    // =====================================================
-
-    function showComingSoon() {
-
-      alert(
-        "Aylık Özet ekranını sonraki adımda ekleyeceğiz."
-      );
-
-    }
-
-
-
-    // =====================================================
+    // ===============================================
     // BAŞLAT
-    // =====================================================
+    // ===============================================
 
-    createMainCategories();
+    createExpenseCategories();
 
     createIncomeTypes();
 
