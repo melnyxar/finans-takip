@@ -36,27 +36,24 @@
     bg-slate-950
     text-slate-100
     min-h-screen
-    flex
-    flex-col
+    pb-24
   "
 >
 
 
-  <!-- UYGULAMA -->
-
   <div
-    id="app"
     class="
       w-full
       max-w-md
       mx-auto
       p-4
-      pb-24
     "
   >
 
 
-    <!-- BAŞLIK -->
+    <!-- ==================================================
+         BAŞLIK
+    =================================================== -->
 
     <header
       class="
@@ -112,15 +109,21 @@
     </header>
 
 
-    <!--
-      EKRANLARI BURAYA EKLEYECEĞİZ
-    -->
+
+    <!-- ==================================================
+         HARCAMA GİRİŞİ
+    =================================================== -->
 
     <main
+      id="expenseView"
       class="
         mt-4
+        space-y-4
       "
     >
+
+
+      <!-- TUTAR -->
 
       <div
         class="
@@ -128,31 +131,181 @@
           border
           border-slate-800
           rounded-2xl
-          p-6
+          p-5
           text-center
         "
       >
 
-        <p
+        <label
           class="
-            text-emerald-400
-            font-semibold
+            text-xs
+            text-slate-400
+            font-medium
+            tracking-wider
+            uppercase
+            block
+            mb-2
           "
         >
-          Finans Takip hazır.
-        </p>
+          Harcama Tutarı
+        </label>
 
-        <p
+
+        <div
           class="
-            text-sm
-            text-slate-500
-            mt-2
+            flex
+            items-center
+            justify-center
+            gap-2
           "
         >
-          Harcama ve gelir ekranlarını şimdi oluşturacağız.
-        </p>
+
+          <span
+            class="
+              text-3xl
+              font-bold
+              text-emerald-400
+            "
+          >
+            ₺
+          </span>
+
+
+          <input
+            id="expenseAmount"
+            type="number"
+            step="0.01"
+            min="0"
+            placeholder="0.00"
+
+            class="
+              bg-transparent
+              text-4xl
+              font-bold
+              w-48
+              text-center
+              text-white
+              focus:outline-none
+              placeholder-slate-600
+            "
+          >
+
+        </div>
 
       </div>
+
+
+
+      <!-- AÇIKLAMA -->
+
+      <input
+        id="expenseDescription"
+        type="text"
+        maxlength="150"
+        placeholder="Kısa açıklama (opsiyonel)..."
+
+        class="
+          w-full
+          bg-slate-900
+          border
+          border-slate-800
+          rounded-xl
+          px-4
+          py-3
+          text-sm
+          text-slate-200
+          placeholder-slate-500
+          focus:outline-none
+          focus:border-emerald-500
+        "
+      >
+
+
+
+      <!-- ANA KATEGORİ -->
+
+      <div>
+
+        <span
+          class="
+            text-xs
+            text-slate-400
+            font-medium
+            block
+            mb-2
+          "
+        >
+          1. Kategori Seç
+        </span>
+
+
+        <div
+          id="mainCategoriesGrid"
+          class="
+            grid
+            grid-cols-2
+            gap-2.5
+          "
+        ></div>
+
+      </div>
+
+
+
+      <!-- ALT KATEGORİ -->
+
+      <div
+        id="subCategorySection"
+        class="hidden"
+      >
+
+        <div
+          class="
+            flex
+            justify-between
+            items-center
+            mb-2
+          "
+        >
+
+          <span
+            class="
+              text-xs
+              text-slate-400
+              font-medium
+            "
+          >
+            2. Alt Kategori Seç
+          </span>
+
+
+          <button
+            type="button"
+            onclick="resetCategorySelection()"
+
+            class="
+              text-xs
+              text-slate-500
+              hover:text-slate-300
+            "
+          >
+            Vazgeç
+          </button>
+
+        </div>
+
+
+        <div
+          id="subCategoriesGrid"
+          class="
+            grid
+            grid-cols-2
+            gap-2
+          "
+        ></div>
+
+      </div>
+
 
     </main>
 
@@ -160,7 +313,10 @@
   </div>
 
 
-  <!-- ALT MENÜ -->
+
+  <!-- ==================================================
+       ALT MENÜ
+  =================================================== -->
 
   <nav
     class="
@@ -168,17 +324,21 @@
       bottom-0
       left-0
       right-0
-      bg-slate-900
+      bg-slate-900/95
+      backdrop-blur-md
       border-t
       border-slate-800
       flex
       justify-around
       py-3
+      z-50
     "
   >
 
 
     <button
+      type="button"
+
       class="
         flex
         flex-col
@@ -192,14 +352,23 @@
         ➕
       </span>
 
-      <span class="text-xs">
+      <span
+        class="
+          text-xs
+          font-medium
+        "
+      >
         Harcama
       </span>
 
     </button>
 
 
+
     <button
+      type="button"
+      onclick="showComingSoon('Gelir')"
+
       class="
         flex
         flex-col
@@ -213,14 +382,23 @@
         💰
       </span>
 
-      <span class="text-xs">
+      <span
+        class="
+          text-xs
+          font-medium
+        "
+      >
         Gelir
       </span>
 
     </button>
 
 
+
     <button
+      type="button"
+      onclick="showComingSoon('Özet')"
+
       class="
         flex
         flex-col
@@ -234,7 +412,12 @@
         📊
       </span>
 
-      <span class="text-xs">
+      <span
+        class="
+          text-xs
+          font-medium
+        "
+      >
         Özet
       </span>
 
@@ -242,6 +425,627 @@
 
 
   </nav>
+
+
+
+  <script>
+
+
+    // =====================================================
+    // GOOGLE APPS SCRIPT
+    // =====================================================
+
+    const SCRIPT_URL =
+      "https://script.google.com/macros/s/AKfycbz14ItYilxfdHDyNowumHNGUeYYRddF53B-3YJ863icIcwbZDaK1h8BwrDPl8VNNdq3/exec";
+
+
+
+    // =====================================================
+    // HARCAMA KATEGORİLERİ
+    // =====================================================
+
+    const EXPENSE_CATEGORIES = {
+
+      "Market": {
+        icon: "🛒",
+        subs: [
+          "Ev İhtiyaçları",
+          "Atıştırmalık"
+        ]
+      },
+
+
+      "Yemek": {
+        icon: "🍔",
+        subs: [
+          "Dışarıda Restoran/Kafe",
+          "Yemek Siparişi"
+        ]
+      },
+
+
+      "Ulaşım": {
+        icon: "🚌",
+        subs: [
+          "Toplu Taşıma / Akbil",
+          "Taksi",
+          "Şehirlerarası Seyahat"
+        ]
+      },
+
+
+      "Eğlence & Sosyal": {
+        icon: "🎟️",
+        subs: [
+          "Sinema/Tiyatro",
+          "Dışarıda Kahve",
+          "Oyunlar",
+          "Sosyal Aktivite"
+        ]
+      },
+
+
+      "Üniversite": {
+        icon: "🎓",
+        subs: [
+          "Yemekhane",
+          "Kırtasiye / Baskı",
+          "Kampüs Kahve/Market",
+          "Harç / Kayıt",
+          "Kulüp / Etkinlik"
+        ]
+      },
+
+
+      "Sabit Abonelikler": {
+        icon: "💳",
+        subs: [
+          "Akbil Abonman",
+          "Spotify",
+          "Dijital Abonelik"
+        ]
+      },
+
+
+      "Kişisel Bakım & Sağlık": {
+        icon: "✂️",
+        subs: [
+          "Kıyafet / Ayakkabı",
+          "Kuaför / Berber",
+          "Eczane / Sağlık"
+        ]
+      }
+
+    };
+
+
+
+    let selectedMainCategory = null;
+
+
+
+    // =====================================================
+    // ANA KATEGORİLERİ OLUŞTUR
+    // =====================================================
+
+    function createMainCategories() {
+
+      const grid =
+        document.getElementById(
+          "mainCategoriesGrid"
+        );
+
+
+      grid.innerHTML = "";
+
+
+      Object.entries(
+        EXPENSE_CATEGORIES
+      ).forEach(([name, info]) => {
+
+
+        const button =
+          document.createElement("button");
+
+
+        button.type = "button";
+
+
+        button.className =
+          "main-category-button " +
+          "flex items-center gap-2 " +
+          "bg-slate-900 " +
+          "border border-slate-800 " +
+          "p-3 rounded-xl " +
+          "text-left " +
+          "hover:border-slate-700 " +
+          "active:bg-slate-800 " +
+          "transition-all";
+
+
+        button.innerHTML = `
+
+          <span class="text-xl">
+            ${info.icon}
+          </span>
+
+          <span
+            class="
+              text-sm
+              font-medium
+              text-slate-200
+            "
+          >
+            ${name}
+          </span>
+
+        `;
+
+
+        button.onclick = function () {
+
+          selectMainCategory(
+            name,
+            button
+          );
+
+        };
+
+
+        grid.appendChild(button);
+
+      });
+
+    }
+
+
+
+    // =====================================================
+    // ANA KATEGORİ SEÇ
+    // =====================================================
+
+    function selectMainCategory(
+      categoryName,
+      selectedButton
+    ) {
+
+
+      selectedMainCategory =
+        categoryName;
+
+
+      document
+        .querySelectorAll(
+          ".main-category-button"
+        )
+        .forEach(function (button) {
+
+          button.classList.remove(
+            "border-emerald-500",
+            "bg-slate-800"
+          );
+
+        });
+
+
+      selectedButton.classList.add(
+        "border-emerald-500",
+        "bg-slate-800"
+      );
+
+
+      createSubCategories(
+        categoryName
+      );
+
+    }
+
+
+
+    // =====================================================
+    // ALT KATEGORİLERİ OLUŞTUR
+    // =====================================================
+
+    function createSubCategories(
+      categoryName
+    ) {
+
+
+      const section =
+        document.getElementById(
+          "subCategorySection"
+        );
+
+
+      const grid =
+        document.getElementById(
+          "subCategoriesGrid"
+        );
+
+
+      grid.innerHTML = "";
+
+
+      EXPENSE_CATEGORIES[
+        categoryName
+      ].subs.forEach(function (subCategory) {
+
+
+        const button =
+          document.createElement("button");
+
+
+        button.type = "button";
+
+
+        button.className =
+          "bg-emerald-950/40 " +
+          "border border-emerald-800/60 " +
+          "text-emerald-200 " +
+          "p-3 rounded-xl " +
+          "text-xs font-semibold " +
+          "hover:bg-emerald-900/50 " +
+          "active:scale-95 " +
+          "transition-all";
+
+
+        button.innerText =
+          subCategory;
+
+
+        button.onclick = function () {
+
+          submitExpense(
+            subCategory
+          );
+
+        };
+
+
+        grid.appendChild(button);
+
+      });
+
+
+      section.classList.remove(
+        "hidden"
+      );
+
+    }
+
+
+
+    // =====================================================
+    // KATEGORİ SEÇİMİNİ TEMİZLE
+    // =====================================================
+
+    function resetCategorySelection() {
+
+
+      selectedMainCategory = null;
+
+
+      document
+        .getElementById(
+          "subCategorySection"
+        )
+        .classList.add(
+          "hidden"
+        );
+
+
+      document
+        .querySelectorAll(
+          ".main-category-button"
+        )
+        .forEach(function (button) {
+
+          button.classList.remove(
+            "border-emerald-500",
+            "bg-slate-800"
+          );
+
+        });
+
+    }
+
+
+
+    // =====================================================
+    // HARCAMA KAYDET
+    // =====================================================
+
+    async function submitExpense(
+      subCategory
+    ) {
+
+
+      const amountInput =
+        document.getElementById(
+          "expenseAmount"
+        );
+
+
+      const descriptionInput =
+        document.getElementById(
+          "expenseDescription"
+        );
+
+
+      const amount =
+        Number(amountInput.value);
+
+
+      const description =
+        descriptionInput.value.trim();
+
+
+      if (
+        !amount ||
+        amount <= 0
+      ) {
+
+        alert(
+          "Lütfen geçerli bir harcama tutarı gir."
+        );
+
+        return;
+
+      }
+
+
+      if (!selectedMainCategory) {
+
+        alert(
+          "Lütfen bir kategori seç."
+        );
+
+        return;
+
+      }
+
+
+      const now =
+        new Date();
+
+
+      const year =
+        now.getFullYear();
+
+
+      const month =
+        String(
+          now.getMonth() + 1
+        ).padStart(
+          2,
+          "0"
+        );
+
+
+      const day =
+        String(
+          now.getDate()
+        ).padStart(
+          2,
+          "0"
+        );
+
+
+      const hours =
+        String(
+          now.getHours()
+        ).padStart(
+          2,
+          "0"
+        );
+
+
+      const minutes =
+        String(
+          now.getMinutes()
+        ).padStart(
+          2,
+          "0"
+        );
+
+
+      const payload = {
+
+        type:
+          "expense",
+
+        date:
+          `${year}-${month}-${day}`,
+
+        time:
+          `${hours}:${minutes}`,
+
+        mainCategory:
+          selectedMainCategory,
+
+        subCategory:
+          subCategory,
+
+        amount:
+          amount,
+
+        description:
+          description,
+
+        period:
+          `${year}-${month}`
+
+      };
+
+
+      setStatus(
+        "Kaydediliyor...",
+        "loading"
+      );
+
+
+      try {
+
+
+        await fetch(
+          SCRIPT_URL,
+          {
+
+            method:
+              "POST",
+
+            mode:
+              "no-cors",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify(
+                payload
+              )
+
+          }
+        );
+
+
+        amountInput.value = "";
+
+        descriptionInput.value = "";
+
+
+        resetCategorySelection();
+
+
+        setStatus(
+          "Kaydedildi!",
+          "success"
+        );
+
+
+        setTimeout(
+          function () {
+
+            setStatus(
+              "Hazır",
+              "normal"
+            );
+
+          },
+          2500
+        );
+
+
+      } catch (error) {
+
+
+        console.error(
+          error
+        );
+
+
+        setStatus(
+          "Hata!",
+          "error"
+        );
+
+      }
+
+    }
+
+
+
+    // =====================================================
+    // DURUM BADGE
+    // =====================================================
+
+    function setStatus(
+      text,
+      type
+    ) {
+
+
+      const badge =
+        document.getElementById(
+          "statusBadge"
+        );
+
+
+      badge.innerText =
+        text;
+
+
+      badge.className =
+        "text-xs px-2.5 py-1 rounded-full";
+
+
+      if (type === "success") {
+
+        badge.classList.add(
+          "bg-emerald-950",
+          "text-emerald-300"
+        );
+
+      }
+
+      else if (type === "loading") {
+
+        badge.classList.add(
+          "bg-amber-950",
+          "text-amber-300"
+        );
+
+      }
+
+      else if (type === "error") {
+
+        badge.classList.add(
+          "bg-red-950",
+          "text-red-300"
+        );
+
+      }
+
+      else {
+
+        badge.classList.add(
+          "bg-slate-800",
+          "text-slate-400"
+        );
+
+      }
+
+    }
+
+
+
+    // =====================================================
+    // GEÇİCİ MENÜ
+    // =====================================================
+
+    function showComingSoon(
+      pageName
+    ) {
+
+      alert(
+        pageName +
+        " ekranını sonraki adımda ekleyeceğiz."
+      );
+
+    }
+
+
+
+    // =====================================================
+    // BAŞLAT
+    // =====================================================
+
+    createMainCategories();
+
+
+  </script>
 
 
 </body>
